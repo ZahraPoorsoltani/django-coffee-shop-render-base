@@ -1,0 +1,58 @@
+{%extends 'base.html'%}
+{%block content %}
+<main class="container child:mt-8">   
+    <section class="container w-[75%] rounded-lg bg-white dark:bg-zinc-700 shadow p-5">
+       <form method="post" action="{%url 'account:signup_view'%}">
+        <p class="font-DanaMedium text-lg mb-2 login-text-center"> ثبت نام</p>
+
+        {% csrf_token %}
+        <input name="username" type="text" class="tailwind-input" placeholder="نام کاربری" required>
+        
+        <input name="email" type="text" class="tailwind-input" placeholder="ایمیل" required>
+
+        <input name="password1" id="password-field" type="password" class="tailwind-input" placeholder="پسورد"
+                required>
+        <input name="password2" id="password-field" type="password" class="tailwind-input" placeholder="تایید پسورد"
+                required>
+        <div class="flex justify-between">
+            {{form.captcha}}
+        </div>
+        <p class="text-gray-500 dark:text-white text-sm mb-4">
+            با ورود و یا ثبت نام در قهوه کافیین شما شرایط و مقررات استفاده از سرویس های سایت قهوه کافیین و سیاست حفظ حریم خصوصی آن را می‌پذیرید.
+        </p>             
+        <button class="rounded-lg p-2 bg-green-500 hover:bg-green-600 text-white transition-all w-full">ثبت نام</button>
+        <p class="text-gray-500 dark:text-white text-sm mb-4 p-2">
+            حساب کاربری دارید؟
+        <a class="text-blue-500" href="{% url 'account:login_view' %}">وارد</a>
+            شوید
+        </p> 
+        </form>
+    </section>
+</main>
+<script>
+    $(document).ready(function () {
+        $('input[name="captcha_1"]').addClass('tailwind-input')
+        $('input[name="captcha_1"]').addClass('mr-7')
+        $('input[name="captcha_1"]').attr("placeholder", "کد کپتچا را وارد کنید");
+
+        // Add refresh button after field (this can be done in the template as well)
+        $('img.captcha').after(
+            $('<a href="#void" class="captcha-refresh"><i class="fa fa-refresh" aria-hidden="true"></i></a>')
+        );
+        $('.captcha-refresh').click(function () {
+            var $form = $(this).parents('form');
+            var url = location.protocol + "//" + window.location.hostname + ":"
+                + location.port + "/captcha/refresh/";
+
+            // Make the AJAX-call
+            $.getJSON(url, {}, function (json) {
+                $form.find('input[name="captcha_0"]').val(json.key);
+                $form.find('img.captcha').attr('src', json.image_url);
+            });
+
+            return false;
+        });
+    })
+</script>
+{% endblock%}
+            
