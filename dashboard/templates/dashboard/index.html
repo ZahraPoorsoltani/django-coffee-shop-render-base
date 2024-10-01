@@ -1,0 +1,121 @@
+{%extends 'dashboard/dashboard-base.html'%}
+{% load static%}
+{% load humanize%}
+{% load jformat %}
+{%block content%}
+
+                    <div class="m-5 lg:m-0">
+                        <p class="font-DanaMedium block lg:hidden">
+                            {{user.username}}
+                            عزیز؛ خوش اومدی 🙌</p>
+                        <div class="grid grid-cols-12 gap-6 lg:gap-12 mt-6">
+                            <div class="col-span-12 xl:col-span-5">
+                                <p class="text-lg">اطلاعات سفارش ها :</p>
+                                <div class="bg-white shadow child:flex child:items-center child:gap-x-2 mt-4 px-4 py-7 dark:bg-zinc-700 rounded-lg flex flex-col">
+                                    <span>
+                                        <svg class="w-5 h-5 mb-1"><use href="#shopping-bag"></use></svg>
+                                        <p>
+                                            تعداد کل سفارش ها : <span class="font-DanaMedium text-blue-500">
+                                            {{num_order}}
+                                                 <span class="text-sm">عدد</span></span>
+                                        </p>
+                                    </span>
+                                    <span class="border-t-2 border-dashed border-gray-200 dark:border-white/20 my-5"></span>
+                                    <span>
+                                        <svg class="w-5 h-5 mb-1"><use href="#wallet"></use></svg>
+                                        <p>
+                                            جمع کل سفارش ها : <span class="font-DanaMedium text-green-500">
+                                                {{total_paid|intcomma}}
+                                                <span class="text-sm">تومان</span></span>
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-span-12 xl:col-span-7">
+                                <p class="text-lg">جزییات سفارش ها :</p>
+                                <div class="w-full grid grid-cols-12 child:col-span-12 child:sm:col-span-6 child:md:col-span-4 gap-5 child:p-2 mt-4 child:rounded-lg child:flex child:gap-x-4 child:items-center child:text-white">
+                                    {% for item in paid_status%}
+                                        {% if item.is_paid == 'paid' %}
+                                        <div class="bg-emerald-500">
+                                            <span class="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6"><use href="#clock"></use></svg>
+                                            </span>
+                                            <span>
+                                                <p>پرداخت شده</p>
+                                                <p>{{item.dcount}}</p>
+                                            </span>
+                                        </div>
+                                        {%elif item.is_paid == 'pending' %}
+                                        <div class="bg-amber-500">
+                                            <span class="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6"><use href="#check"></use></svg>
+                                            </span>
+                                            <span>
+                                                <p>
+                                                     در انتظار پرداخت
+                                                </p>
+                                                <p>{{item.dcount}}</p>
+                                            </span>
+                                        </div>
+                                        {% elif item.is_paid == 'cancel'%}
+                                        <div class="bg-rose-500">
+                                            <span class="bg-white/20 w-12 h-12 rounded-lg flex items-center justify-center">
+                                                <svg class="w-6 h-6"><use href="#x-close"></use></svg>
+                                            </span>
+                                            <span>
+                                                <p>لغو شده</p>
+                                                <p>{{item.dcount}}</p>
+                                            </span>
+                                        </div>
+                                        {%endif%}
+                                    {%endfor%}
+                                </div>
+                            </div>
+                           
+                            <div class="col-span-12 xl:col-span-12">
+                                <p class="text-lg">سفارش های اخیر من :</p>
+                                <div class="relative w-full overflow-x-auto shadow rounded-lg">
+                                    <table class="w-full text-sm text-right text-gray-500 dark:text-gray-400">
+                                        <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-zinc-700 dark:text-gray-200">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3.5">نام محصول</th>
+                                                <th scope="col" class="px-6 py-3.5">تعداد</th>
+                                                <th scope="col" class="px-6 py-3.5">تاریخ</th>
+                                                <th scope="col" class="px-6 py-3.5">قیمت</th>
+                                                <th scope="col" class="px-6 py-3.5">وضعیت</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in all_orders%}
+                                                <tr class="bg-white border-b dark:bg-zinc-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-600">
+                                                    <th scope="row" class="px-6 py-5 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        {{order.product.title_persian}}    
+                                                    </th>
+                                                    <td class="px-6 py-5">
+                                                        {{order.quantity}}
+                                                    </td>
+                                                    <td class="px-6 py-5">
+                                                        {{order.created_date|jformat:"%d /%m/ %Y " }}
+                                                    </td>
+                                                    <td class="px-6 py-5">
+                                                        {{order.product.price|intcomma}}
+                                                        تومان
+                                                    </td>
+                                                    {% if order.is_paid == 'paid' %}
+                                                        <td class="px-6 py-5 text-green-500">پرداخت شده</td>
+                                                    {% elif order.is_paid == 'pending' %}
+                                                        <td class="px-6 py-5 text-yellow-500">در انتظار پرداخت</td>
+                                                    {% elif order.is_paid == 'cancel' %}
+                                                        <td class="px-6 py-5 text-red-500">لغو شده</td>
+                                                    {%endif%}
+
+                                                </tr>
+                                            {% endfor%}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{%endblock%}

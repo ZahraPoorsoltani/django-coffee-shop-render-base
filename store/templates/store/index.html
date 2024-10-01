@@ -1,0 +1,246 @@
+{%extends 'base.html'%}
+{%load static%}
+{% load humanize %}
+{% load store_tags%}
+{% block content %}
+</header>
+        <main class="container child:mt-8">
+            <section>
+                <ul class="flex items-center gap-x-2 text-gray-400 text-sm lg:text-base">
+                    <li class="flex items-center gap-x-2">
+                        <a href="https://caffeine-demo.ir/index.html">صفحه اصلی</a> <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                    </li>
+                    <li class="flex items-center gap-x-2"><a href="https://caffeine-demo.ir/shop.html">فروشگاه</a></li>
+                </ul>
+            </section>
+            <div class="flex flex-col lg:flex-row gap-4">
+                <form class="lg:sticky top-1 h-fit lg:w-1/4 flex flex-col gap-y-4 items-center shadow rounded-lg p-4 dark:bg-zinc-700 bg-white" method="get" action="{% url 'store:index'%}">
+                    <div class="flex items-center justify-between w-full">
+                        <span class="flex items-center gap-x-1">
+                            <svg class="w-5 h-5"><use href="#filter"></use></svg>
+                            <p class="font-DanaMedium">فیلتر ها</p>
+                        </span>
+                        <a href="{% url 'store:index'%}" class="text-green-500">حدف همه</a>
+                    </div>
+                    <div class="mt-3 w-full dark:bg-zinc-600 cursor-pointer shadow rounded-lg">
+                        <div class="accordion-header p-3 flex items-center justify-between">
+                            <p class="font-DanaMedium">دسته بندی</p>
+                            <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                        </div>
+                        {% store_category_names %}
+                        
+                    </div>
+                    <div class="w-full dark:bg-zinc-600 cursor-pointer shadow rounded-lg">
+                        <div class="accordion-header p-3 flex items-center justify-between">
+                            <p class="font-DanaMedium">میزان کافئین</p>
+                            <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                        </div>
+                        <ul class="accordion-content accordion-content-cafflevel hidden py-2 mx-2 child:dark:text-gray-200 child:text-gray-600 child:flex items-center child:gap-x-2 child:py-1 child:px-2 child:rounded space-y-2">
+                            <li>
+                                <label class="cl-checkbox">
+                                    <input  name="filter[cafflevel]" value="HIGH" type="checkbox" onChange="this.form.submit()" />
+                                    <span></span></label>
+                                <p>بالا</p>
+                            </li>
+                            <li>
+                                <label class="cl-checkbox">
+                                    <input name="filter[cafflevel]" value="MEDIUM" type="checkbox" onChange="this.form.submit()" />
+                                    <span></span></label>
+                                <p>متوسط</p>
+                            </li>
+                            <li>
+                                <label class="cl-checkbox">
+                                    <input name="filter[cafflevel]" value="LOW" type="checkbox" onChange="this.form.submit()" />
+                                    <span></span></label>
+                                <p>کم</p>
+                            </li>
+                        </ul> 
+       
+                    </div>
+                    {% prod_price_range %}
+
+                    
+                    <div class="flex my-2 w-full flex-col h-auto gap-y-5 child:flex child:items-center child:justify-between child:font-DanaMedium">
+                        <div class="">
+                            <p>فقط کالا های موجود</p>
+                            <label class="switch">
+                                <input type="checkbox"  name="filter[available]" onChange="this.form.submit()" />
+                                 <span class="slider"></span></label>
+                        </div>
+                    </div>
+                </form>
+                <div class="lg:w-3/4">
+                    <div class="dark:bg-zinc-700 bg-white flex flex-wrap items-center justify-start lg:gap-x-8 py-2 px-2 sm:px-4 shadow rounded-lg sm:h-16">
+                        <div class="flex items-center gap-x-2">
+                            <svg class="w-5 h-5"><use href="#sort-list"></use></svg>
+                            <h2 class="font-DanaDemiBold">مرتب سازی بر اساس :</h2>
+                        </div>
+                        <ul class="order-name flex items-center gap-x-1 lg:gap-x-5 child:transition-all child:cursor-pointer child-hover:bg-gray-300/30 child:rounded-lg child:px-1 child:py-1 child:text-sm child:lg:text-base">
+                            <li><a href="{% url 'store:order_prods' 'most_sale' %}">
+                                پرفروش ترین
+                            </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'store:order_prods' 'most_cheap' %}">                                 
+                                ارزان ترین
+                                </a>
+                                
+                            </li>
+                            <li>
+                                <a href="{% url 'store:order_prods' 'most_expensive' %}">
+                                گران ترین
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div
+                        class="mt-4 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 xs:gap-6 sm:gap-7 child:cursor-pointer child:overflow-hidden child:rounded-lg child:bg-white child:dark:bg-zinc-700 child:shadow lg:child:w-56 child:relative"
+                    >
+                    {% for prod in prods%}
+                    <div class="group">
+                        <a href="{% url 'store:product_detail' prod.id %}">
+                            <img src="{{prod.image.url}}" alt="product-1" class="group-hover:scale-105 duration-300 w-32 h-32 lg:w-48 lg:h-48 mx-auto mb-3" />
+                        </a>
+                        <div class="px-2 lg:px-4 mb-3">
+                            <a href="{% url 'store:product_detail' prod.id %}" class="line-clamp-2 font-DanaMedium mb-2 text-sm lg:text-base">
+                                {{prod.title_persian}}
+                                {{prod.weight}}
+                                گرم
+                            </a>
+                            <div class="flex items-center gap-x-1 lg:gap-x-3">
+                                <p class="font-DanaDemiBold text-green-600 dark:text-green-500">
+                                    {{prod.price|intcomma}} 
+                                    <span class="font-Dana text-sm">تومان</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between px-2 lg:px-4 mb-3">
+                            <div class="flex items-center gap-x-2 child:transition-all child:duration-300">
+                                <a href="{% url 'store:product_detail' prod.id %}" class="rounded-full p-2 dark:bg-zinc-800 dark:hover:bg-green-500 bg-gray-100 hover:bg-green-600 hover:text-white">
+                                    <svg class="w-4 h-4"><use href="#shopping-cart"></use></svg>
+                                </a>
+                                
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-300">
+                                    <use href="#star"></use>
+                                </svg> 
+                                <svg class="w-4 h-4 text-yellow-400">
+                                    <use href="#star"></use>
+                                </svg>
+                                 <svg class="w-4 h-4 text-yellow-400">
+                                    <use href="#star"></use>
+                                </svg>
+                                <svg class="w-4 h-4 text-yellow-400">
+                                    <use href="#star"></use>
+                                </svg> 
+                                <svg class="w-4 h-4 text-yellow-400">
+                                    <use href="#star"></use>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor%}
+                    </div>
+                    
+                    <div class="mt-10 w-full flex items-center justify-center">
+                        <ul class="flex items-center gap-x-3 child:flex child:items-center child:justify-center child:w-8 child:h-8 child:cursor-pointer child:shadow child:rounded-lg child:transition-all child:duration-300">
+                            {% if prods.has_previous %}
+                                <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                    <a href="?page={{ prods.previous_page_number }}">
+                                        <svg class="w-5 h-5"><use href="#chevron-right"></use></svg>
+                                    </a>
+                                </li>
+                            {%endif%}
+                            {% for p in prods.paginator.page_range %}
+                                {% if prods.number != p%}
+                                    <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                        <a href="?page={{p}}">{{p}}</a>
+                                    </li>
+                                {%else%}
+                                    <li class="text-white bg-green-500">
+                                        <a href="?page={{p}}" >{{p}}</a>
+                                    </li>
+
+                                {%endif%}
+                            {%endfor%}
+                            {% if prods.has_next %}
+                            <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                <a href="?page={{ prods.paginator.num_pages }}">
+                                    <svg class="w-5 h-5"><use href="#chevron-left"></use></svg>
+                                </a>
+                            </li>        
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+        {% for key,values in request.GET|convert_query_to_dict %}
+                            {% if key == 'filter[category]' %}
+                                {% for v in values%}
+                                    <script type="text/javascript">
+                                        $('input[name="{{key}}"][value="{{v}}"').attr('checked','checked')
+                                        $('.accordion-content-cat').removeClass('hidden')
+                                    </script>
+                                {%endfor%}
+                            {%elif key == 'filter[cafflevel]'%}
+                                {% for v in values%}
+                                <script type="text/javascript">
+                                    $('input[name="{{key}}"][value="{{v}}"').attr('checked','checked')
+                                    $('.accordion-content-cafflevel').removeClass('hidden')
+                                </script>
+                                {%endfor%}
+                            {%elif key == 'filter[minrange]'%}
+                                {% for v in values%}
+                                <script type="text/javascript">
+                                    $('input[name="{{key}}"]').attr('value','{{v}}')
+                                    rangeInputMin = $('input[name= "filter[minrange]"]').val()
+                                    maxVal = parseInt($('input[name= "filter[minrange]"]').attr('max'))
+                                    left = (rangeInputMin / maxVal) * 100 + "%";
+                                    $('.slider-bar .progress').css('left',left)
+                                    $('.justify-start .min-input').text(rangeInputMin)
+
+                                </script>
+                                {%endfor%}
+                            {%elif key == 'filter[maxrange]'%}
+                                {% for v in values%}
+                                <script type="text/javascript">
+                                    $('input[name="{{key}}"]').attr('value','{{v}}')
+                                    rangeInputMax = $('input[name= "filter[maxrange]"]').val()
+                                    maxVal = parseInt($('input[name= "filter[maxrange]"]').attr('max'))
+                                    right = 100 - (rangeInputMax / maxVal) * 100 + "%";
+                                    $('.slider-bar .progress').css('right',right)
+                                    $('.justify-end .max-input').text(rangeInputMax)
+                                    
+                                </script>
+                                {%endfor%}
+                                {%elif key == 'filter[available]'%}
+                                    <script>
+                                        $('input[name="filter[available]"]').attr('checked','checked')
+
+                                    </script>
+                            {%endif%}     
+
+                        {%endfor%}
+        <script>
+            rangeInputMax = $('input[name= "filter[maxrange]"]').val()
+            maxVal = parseInt($('input[name= "filter[maxrange]"]').attr('max'))
+            right = 100 - (rangeInputMax / maxVal) * 100 + "%";
+            $('.slider-bar .progress').css('right',right)
+            $('.justify-end .max-input').text(rangeInputMax)
+
+            rangeInputMin = $('input[name= "filter[minrange]"]').val()
+            maxVal = parseInt($('input[name= "filter[minrange]"]').attr('max'))
+            left = (rangeInputMin / maxVal) * 100 + "%";
+            $('.slider-bar .progress').css('left',left)
+            $('.justify-start .min-input').text(rangeInputMin)
+            order_st = "{{order}}"
+            if (order_st){
+                console.log(order_st)
+                $('.order-name li').removeClass('text-green-500')
+                url = "{% url 'store:order_prods' order %}"
+                $("a[href='"+url+"']").addClass('text-green-500')
+            }
+        </script>
+{%endblock%}

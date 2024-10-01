@@ -1,0 +1,68 @@
+{% extends 'base.html'%}
+{%load static%}
+{% load website_tags %}
+
+{%block content %}
+<div>
+    <div class="swiper mySwiper w-full h-48 md:h-72 lg:h-[450px] mt-4 lg:mt-6 swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+        <div class="swiper-wrapper" id="swiper-wrapper-4a2745eefb5e9d24" aria-live="off" style="transition-duration: 0ms; transform: translate3d(953px, 0px, 0px); transition-delay: 0ms;">
+            <div class="swiper-slide absolute swiper-slide-next swiper-slide-prev" role="group" aria-label="1 / 2" data-swiper-slide-index="0" style="width: 933px; margin-left: 20px;">
+                <img class="w-full h-full object-cover" src="{% static 'images/slide-1.png' %}" alt="" />
+                <div class="flex items-start flex-col absolute right-5 top-5 md:right-10 md:top-10 lg:top-20 lg:right-40 xl:right-48 text-white">
+                    <h2 class="font-MorabbaMedium text-xl lg:text-5xl mb-2 lg:mb-4">دانه قهوه اسپرسو جیورنو</h2>
+                    <p class="text-base lg:text-2xl font-MorabbaLight border-b border-gray-300 pb-2 lg:pb-4 mb-2 lg:mb-4">یک طعم باورنکردنی !</p>
+                    <p class="w-[60%] text-sm lg:text-base lg:leading-8 mb-2 lg:mb-4 line-clamp-2">قطعا نام آشنای جیورنو را شنیده اید، جیورنو یکی از گونه های قهوه است که در نواحی مختلف کمربند قهوه کشت میشود.</p>
+                    <a href="{% url 'store:index'%}" class="flex items-center bg-green-500 hover:bg-green-600 transition-all rounded-lg px-1 lg:px-2 py-1 lg:py-1.5 text-sm lg:text-base">
+                        <p class="hidden lg:flex ml-1">مشاهده</p>
+                        فروشگاه <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="swiper-slide absolute swiper-slide-active" role="group" aria-label="2 / 2" data-swiper-slide-index="1" style="width: 933px; margin-left: 20px;">
+                <img class="w-full h-full object-cover" src="{% static 'images/slide-1.png' %}" alt="" />
+                <div class="flex items-start flex-col absolute right-5 top-5 md:right-10 md:top-10 lg:top-20 lg:right-40 xl:right-48 text-white">
+                    <h2 class="font-MorabbaMedium text-xl lg:text-5xl mb-2 lg:mb-4">دانه قهوه اسپرسو جیورنو</h2>
+                    <p class="text-base lg:text-2xl font-MorabbaLight border-b border-gray-300 pb-2 lg:pb-4 mb-2 lg:mb-4">یک طعم باورنکردنی !</p>
+                    <p class="w-[60%] text-sm lg:text-base lg:leading-8 mb-2 lg:mb-4 line-clamp-2">قطعا نام آشنای جیورنو را شنیده اید، جیورنو یکی از گونه های قهوه است که در نواحی مختلف کمربند قهوه کشت میشود.</p>
+                    <a href="{% url 'store:index'%}" class="flex items-center bg-green-500 hover:bg-green-600 transition-all rounded-lg px-1 lg:px-2 py-1 lg:py-1.5 text-sm lg:text-base">
+                        <p class="hidden lg:flex ml-1">مشاهده</p>
+                        فروشگاه <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container absolute flex items-center justify-end gap-x-3 left-4 lg:left-0 bottom-5 z-30 child:cursor-pointenr child:bg-white child:dark:bg-zinc-700 child:shadow child:rounded-full child:p-1 child:lg:p-1.5">
+            <button class="button-prev" tabindex="0" aria-label="Previous slide" aria-controls="swiper-wrapper-4a2745eefb5e9d24">
+                <svg class="w-5 h-5"><use href="#arrow-long-right"></use></svg>
+            </button>
+            <button class="button-next dark:bg-zinc-700 shadow rounded-full p-1 lg:p-1.5" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-4a2745eefb5e9d24">
+                <svg class="w-5 h-5"><use href="#arrow-long-left"></use></svg>
+            </button>
+        </div>
+        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+    </div>
+</div>
+</header>
+        <main class="child:mt-14">
+            
+           {% newest_order %}
+           {% most_sale %}
+            <section class="container">
+                <div
+                    class="flex flex-col lg:flex-row gap-y-4 items-center justify-between gap-x-10 child:rounded-lg child:text-white child:w-full child:h-48 child:lg:h-60 child:flex child:pr-12 child:justify-center child:flex-col child:gap-y-4 child:cursor-pointer"
+                >
+                    <a href="#" style="background :linear-gradient(270deg, rgba(0, 0, 0, 0.6) 33.85%, rgba(0, 0, 0, 0.1) 100%),url('{% static "images/category-right.jpg" %}')" class="banner group child:duration-300" >
+                        <h2 class="font-MorabbaMedium text-xl lg:text-3xl group-hover:mr-5">انواع قهوه</h2>
+                        <p class="text-base lg:text-lg group-hover:mr-5">ترکیبی و تک خاستگاه</p>
+                    </a>
+                    <a href="#" class="banner group child:duration-300" style="background :linear-gradient(270deg, rgba(0, 0, 0, 0.6) 33.85%, rgba(0, 0, 0, 0.1) 100%),url('{% static "images/category-left.jpg" %}')">
+                        <h2 class="font-MorabbaMedium text-xl lg:text-3xl group-hover:mr-5">پودر های فوری</h2>
+                        <p class="text-base lg:text-lg group-hover:mr-5">نسکافه ، هات چاکلت ، ماسالا</p>
+                    </a>
+                </div>
+            </section>
+            
+            {% latest_article %}
+            
+        </main>
+{%endblock%}

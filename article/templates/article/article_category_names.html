@@ -1,0 +1,12 @@
+<ul class="accordion-content accordion-content-cat hidden  ">
+    <form class="py-2 mx-2 child:dark:text-gray-200 child:text-gray-600 child:flex items-center child:gap-x-2 child:py-1 child:px-2 child:rounded space-y-2" action="{% url 'article:article_index'%}" method="GET">
+    {% for cat in cats%}   
+    <li>
+        <label class="cl-checkbox">
+            <input  name="filter[category]" type="checkbox" value="{{cat}}" onChange="this.form.submit()" />
+             <span></span></label>
+        <p>{{cat}}</p>
+    </li>
+    {%endfor%}
+    </form>
+</ul>

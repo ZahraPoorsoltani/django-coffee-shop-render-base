@@ -1,0 +1,52 @@
+{% load jformat %}
+<section class="container">
+    <div class="flex items-center justify-between mb-12">
+        <div class="flex flex-col gap-y-2">
+            <h2 class="font-MorabbaMedium text-xl lg:text-3xl">مطالب خواندنی</h2>
+        </div>
+            <a href="{% url 'article:article_index' %}" class="flex items-center px-2 py-1 rounded-lg gap-x-2 text-green-500 hover:ml-2 duration-300 transition-all">
+                مشاهده همه <svg class="w-4 h-4">
+                    <use href="#chevron-left"></use></svg>
+            </a>
+    </div>
+    <div
+        class="flex items-center justify-center lg:justify-between flex-wrap gap-4 child-hover:-translate-y-2 child:duration-300 child:bg-white child:dark:bg-zinc-700 child:w-[90%] child:sm:w-56 child:lg:w-72 child:rounded-lg child:p-2 child:cursor-pointer child:shadow"
+    >
+    {% for item in articles %}
+        <div class="group">
+            <div class="relative overflow-hidden rounded-lg">
+                <img src="{{item.image.url}}" class="h-[180px] w-full object-cover rounded-bl-3xl rounded-tr-3xl" alt="" />
+                <div class="absolute opacity-0 left-0 top-0 bottom-0 right-0 bg-black/60 flex items-center justify-center group-hover:opacity-100 duration-300 transition-all rounded-bl-3xl rounded-tr-3xl">
+                    <a href="{% url 'article:article_detail' item.id %}" class="flex items-center px-2 py-1 gap-x-1 font-DanaMedium rounded-lg border-2 border-white text-white">
+                        <p>ادامه مطالب</p>
+                        <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="flex flex-col gap-y-1 my-2 px-1">
+                <h2 class="font-DanaDemiBold">
+                    {{item.title}}
+                </h2>
+                <p class="line-clamp-2 text-sm text-gray-400">
+                    {{item.content|striptags|truncatewords:100}}
+                </p>
+            </div>
+            <span class="flex w-full h-1 py-1 border-t border-gray-100 dark:border-white/10"></span>
+            <div class="flex items-center justify-between text-sm px-1">
+                <span class="flex items-center gap-x-1 text-gray-400">
+                    <svg class="w-4 h-4"><use href="#calendar"></use></svg>
+                    <p class="mt-1">
+                        {{item.published_date|jformat:"%d /%m/ %Y " }}
+                    </p>
+                </span>
+                <span class="flex items-start gap-x-1 text-gray-400">
+                    <p class="font-DanaDemiBold">
+                        {{item.counted_view}}
+                    </p>
+                    <svg class="w-4 h-4"><use href="#eye"></use></svg>
+                </span>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</section>

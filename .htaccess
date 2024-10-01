@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www.zahrapoursoltani.ir [NC]
+RewriteRule ^(.*)$ http://zahrapoursoltani.ir/$1 [L,R=301,NC]
+
+#zahrapoursoltani.ir can be any name of your domain!

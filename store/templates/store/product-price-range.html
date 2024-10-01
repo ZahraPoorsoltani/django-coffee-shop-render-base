@@ -1,0 +1,17 @@
+<div class="wrapper my-4">
+    <div class="slider-bar"><div class="progress"></div></div>
+    <div class="range-input">
+        <input type="range" name="filter[minrange]" min="0" max="100000" value="0" class="min-range" onChange="this.form.submit()" />
+         <input type="range" name="filter[maxrange]" min="0" max="{{max}}" value="{{max}}" class="max-range" onChange="this.form.submit()" />
+        </div>
+    <div class="price-input mt-3 text-green-600">
+        <div class="field justify-start">
+            <span class="text-sm font-DanaMedium mr-2">تومان</span>
+            <p class="min-input">{{min}}</p>
+        </div>
+        <div class="field justify-end">
+            <span class="text-sm font-DanaMedium mr-2">تومان</span>
+            <p class="max-input">{{max}}</p>
+        </div>
+    </div>
+</div>

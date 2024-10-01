@@ -1,0 +1,48 @@
+{% load static%}
+{%load humanize%}
+<div class="shopping-cart fixed -left-72 top-0 bottom-0 w-72 bg-white dark:bg-zinc-700 z-50 shadow transition-all duration-300 px-4">
+    <div class="flex items-center justify-between mt-4">
+        <h2 class="font-DanaMedium">سبد خرید</h2>
+        <a href="#" class="close-shopping-cart__btn">
+            <svg class="w-6 h-6"><use href="#close"></use></svg>
+        </a>
+    </div>
+    <span class="flex w-full border-t dark:border-white/10 border-gray-200 my-5"></span>
+    {% if orders%}
+    <div class="flex flex-col gap-y-4">
+            {% for item in orders%}
+            <div class="flex items-center gap-x-3 border-b border-gray-200 pb-4 dark:border-white/10">
+                <img src="{{item.product.image.url}}" class="w-20 h-20 object-cover rounded-lg" alt="" />
+                <div class="flex flex-col gap-y-1">
+                    <h2 class="font-DanaMedium line-clamp-2 text-sm">
+                        {{item.product.title_persian}} {{item.product.weight}}
+                    </h2>
+                    <p class="font-DanaDemiBold text-sm">
+                        {{item.product.price|intcomma}}
+                        <span class="font-Dana">تومان</span></p>
+                    <p class="text-xs text-gray-600 dark:text-green-500">
+                        تعداد
+                    {{item.quantity}}
+                    </p>
+                </div>
+            </div>
+            {%endfor%}     
+    </div>
+    {%else%} 
+    <div class="flex flex-col">
+        <span class="w-full  justify-center gap-x-2 items-center text-red-500">
+            <p>سبد خرید شما خالی میباشد</p>
+            <svg class="w-4 h-5"><use href="#shopping-cart"></use></svg>
+        </span>
+    </div>
+        
+    {%endif%}
+    <div class="w-full absolute bottom-4 flex items-center gap-x-10">
+        <a href="{% url 'dashboard:index' %}" class="py-2 px-3 rounded-lg transition-colors bg-green-500 hover:bg-green-600 dark:hover:bg-green-600 text-white">ثبت سفارش</a>
+        <div class="flex flex-col">
+            <span class="text-gray-400 text-sm">مبلغ قابل پرداخت</span>
+            <h2 class="font-DanaDemiBold"> {{total_price|intcomma}}
+                 <span class="text-sm font-Dana">تومان</span></h2>
+        </div>
+    </div>
+</div>

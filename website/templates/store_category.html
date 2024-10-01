@@ -1,0 +1,6 @@
+<div class="absolute bg-white flex flex-col gap-y-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-10 transition-all delay-100 dark:bg-zinc-700 top-20 w-52 rounded border-t-2 border-green-500 p-5 text-base shadow-md child-hover:text-green-500 child:transition-all"         >
+    {% for item in cats%} 
+    <a href="{% url 'store:category_prods' item.name %}">{{item.name}}</a> 
+   
+    {%endfor%}
+</div>

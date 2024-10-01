@@ -1,0 +1,200 @@
+{% extends 'base.html'%}
+{%load static%}
+{% load jformat %}
+{% load article_tags%}
+
+{%block content%}
+        </header>
+        <main class="container child:mt-8">
+            <section>
+                <ul class="flex items-center gap-x-2 text-gray-400 text-sm lg:text-base">
+                    <li class="flex items-center gap-x-2">
+                        <a href="{% url 'website:index'%}">صفحه اصلی</a> <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                    </li>
+                    <li class="flex items-center gap-x-2">
+                        <a href="{% url 'article:article_index'%}">مقالات</a></li>
+                </ul>
+            </section>
+            <div class="flex flex-col lg:flex-row gap-4">
+                <div class="lg:sticky top-5 h-fit lg:w-1/4 flex flex-col gap-y-4 items-center shadow rounded-lg p-4 dark:bg-zinc-700 bg-white">
+                    <div class="flex items-center justify-between w-full">
+                        <span class="flex items-center gap-x-1">
+                            <svg class="w-5 h-5"><use href="#filter"></use></svg>
+                            <p class="font-DanaMedium">فیلتر ها</p>
+                        </span>
+                        <p class="text-green-500">
+                            <a href="{% url 'article:article_index' %}">
+                            حدف همه
+                            </a>
+                        </p>
+                    </div>
+                    <div class="mt-6 w-full dark:bg-zinc-600 cursor-pointer shadow rounded-lg">
+                        <div class="accordion-header p-3 flex items-center justify-between">
+                            <p class="font-DanaMedium">دسته بندی</p>
+                            <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                        </div>
+                        {% article_category_names %}
+                        
+
+                    </div>
+                    <div class="w-full dark:bg-zinc-600 cursor-pointer shadow rounded-lg">
+                        <div class="accordion-header p-3 flex items-center justify-between">
+                            <p class="font-DanaMedium">تاریخ انتشار</p>
+                            <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                        </div>
+                        <ul class="accordion-content accordion-content-date hidden">
+                            <form class="py-2 mx-2 child:dark:text-gray-200 child:text-gray-600 child:flex items-center child:gap-x-2 child:py-1 child:px-2 child:rounded space-y-2" action="{% url 'article:article_index'%}" method="GET">
+                                <li>
+                                    <label class="cl-checkbox">
+                                        <input type="checkbox" name="filter[date][0]" onChange="this.form.submit()"/> 
+                                        <span></span>
+                                    </label>
+                                    <p>امروز</p>
+                                </li>
+                                <li>
+                                    <label class="cl-checkbox">
+                                        <input type="checkbox" name="filter[date][1]" onChange="this.form.submit()"/> 
+                                        <span></span></label>
+                                    <p>دیروز</p>
+                                </li>
+                            <form class="py-2 mx-2 child:dark:text-gray-200 child:text-gray-600 child:flex items-center child:gap-x-2 child:py-1 child:px-2 child:rounded space-y-2" action="{% url 'article:article_index'%}" method="GET">
+                        </ul>
+                    </div>
+                   
+                </div>
+                <div class="lg:w-3/4">
+                    <div class="dark:bg-zinc-700 bg-white flex flex-wrap items-center justify-start sm:gap-x-8 py-2 px-2 sm:px-4 shadow rounded-lg sm:h-16">
+                        <div class="flex items-center gap-x-2">
+                            <svg class="w-5 h-5"><use href="#sort-list"></use></svg>
+                            <h2 class="font-DanaDemiBold">مرتب سازی بر اساس :</h2>
+                        </div>
+                        <ul class="flex items-center gap-x-2 lg:gap-x-5 child:transition-all child:cursor-pointer child-hover:bg-gray-300/30 child:rounded-lg child:px-1 child:py-1 child:text-sm sm:child:text-base">
+                            {% for key,value in my_filter.items %}
+                                {%if key == 'order' %}
+                                    {% if value == 'newest' %}
+                                    <li class="text-green-500">
+                                        <a href="{% url 'article:order_article' 'newest'  %}"> 
+                                        جدید ترین
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'article:order_article' 'most_viewed'  %}">
+                                        پربازدید ترین
+                                    </a>
+                                    </li>
+                                    {%elif value == 'most_viewed' %}
+                                    <li>
+                                        <a href="{% url 'article:order_article' 'newest'  %}"> 
+                                        جدید ترین
+                                        </a>
+                                    </li>
+                                    <li class="text-green-500">
+                                        <a href="{% url 'article:order_article' 'most_viewed'  %}">
+                                        پربازدید ترین
+                                    </a>
+                                    </li>
+                                    {%endif%}
+                                {%endif%}
+                            {%endfor%}     
+                            
+                           {% if 'order' not in my_filter%}
+                           <li class="text-green-500">
+                            <a href="{% url 'article:order_article' 'newest'  %}"> 
+                            جدید ترین
+                            </a>
+                        </li>
+                        <li >
+                            <a href="{% url 'article:order_article' 'most_viewed'  %}">
+                            پربازدید ترین
+                        </a>
+                        </li>
+                           {%endif%} 
+                        </ul>
+                    </div>
+                    <div
+                        class="mt-4 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 child-hover:-translate-y-2 child:duration-300 child:bg-white child:dark:bg-zinc-700 child:rounded-lg child:p-2 child:cursor-pointer child:shadow"
+                    >
+                    {% for post in posts %}
+                    <div class="group">
+                        <div class="relative overflow-hidden rounded-lg">
+                            <img src="{{post.image.url}}" class="h-[180px] w-full object-cover rounded-bl-3xl rounded-tr-3xl" alt="" />
+                            <div class="absolute opacity-0 left-0 top-0 bottom-0 right-0 bg-black/60 flex items-center justify-center group-hover:opacity-100 duration-300 transition-all rounded-bl-3xl rounded-tr-3xl">
+                                <a href="{% url 'article:article_detail' post.id %}" class="flex items-center px-2 py-1 gap-x-1 font-DanaMedium rounded-lg border-2 border-white text-white">
+                                    <p>ادامه مطالب</p>
+                                    <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-y-1 my-2 px-1">
+                            <h2 class="font-DanaDemiBold"> {{post.title}}</h2>
+                            <p class="line-clamp-2 text-sm text-gray-400">
+                                {{post.content|striptags|truncatewords:100}}
+                            </p>
+                        </div>
+                        <span class="flex w-full h-1 py-1 border-t border-gray-100 dark:border-white/10"></span>
+                        <div class="flex items-center justify-between text-sm px-1">
+                            <span class="flex items-center gap-x-1 text-gray-400">
+                                <svg class="w-4 h-4"><use href="#calendar"></use></svg>
+                                <p class="mt-1">{{post.published_date|jformat:"%d /%m/ %Y " }}</p>
+                            </span>
+                            <span class="flex items-start gap-x-1 text-gray-400">
+                                <p class="font-DanaDemiBold">{{post.counted_view}}</p>
+                                <svg class="w-4 h-4"><use href="#eye"></use></svg>
+                            </span>
+                        </div>
+                    </div>
+                    {%endfor%}
+                        
+                    </div>
+                    <div class="mt-10 w-full flex items-center justify-center">
+                        <ul class="flex items-center gap-x-3 child:flex child:items-center child:justify-center child:w-8 child:h-8 child:cursor-pointer child:shadow child:rounded-lg child:transition-all child:duration-300">
+                            {% if posts.has_previous %}
+                                <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                    <a href="?page={{ posts.previous_page_number }}">
+                                        <svg class="w-5 h-5"><use href="#chevron-right"></use></svg>
+                                    </a>
+                                </li>
+                            {%endif%}
+                            {% for p in posts.paginator.page_range %}
+                                {% if posts.number != p%}
+                                    <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                        <a href="?page={{p}}">{{p}}</a>
+                                    </li>
+                                {%else%}
+                                    <li class="text-white bg-green-500">
+                                        <a href="?page={{p}}" >{{p}}</a>
+                                    </li>
+
+                                {%endif%}
+                            {%endfor%}
+                            {% if posts.has_next %}
+                            <li class="bg-white dark:bg-zinc-700 hover:bg-green-500 hover:text-white">
+                                <a href="?page={{ posts.paginator.num_pages }}">
+                                    <svg class="w-5 h-5"><use href="#chevron-left"></use></svg>
+                                </a>
+                            </li>        
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+
+    {% for key,values in request.GET|convert_query_to_dict %}
+                            {% if key == 'filter[category]' %}
+                                {% for v in values%}
+                                    <script type="text/javascript">
+                                        $('input[name="{{key}}"][value="{{v}}"').attr('checked','checked')
+                                        $('.accordion-content-cat').removeClass('hidden')
+                                    </script>
+                                {%endfor%}
+                                {% elif key in 'filter[date][0],filter[date][1]'%}
+                                <script>
+                                    $('input[name="{{key}}"]').attr('checked','checked')
+                                    $('.accordion-content-date').removeClass('hidden')
+                                </script>
+                                {%endif%}  
+
+                        {%endfor%}
+{%endblock%}

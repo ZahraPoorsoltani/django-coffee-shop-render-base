@@ -1,0 +1,22 @@
+{% load jformat %}
+
+    <div>
+        <h4 class="font-DanaMedium">جدیدترین مقالات :</h4>
+        <ul class="w-full child:flex child:items-center child:gap-x-2 child:cursor-pointer space-y-4">
+            {% for post in posts%}
+            <li>
+                <img class="w-24 h-16 object-cover rounded-lg" src="{{ post.image.url }}" alt="" />
+                <a class="flex flex-col gap-y-2" href="{% url 'article:article_detail' post.id %}">
+                    <p class="line-clamp-1">{{post.title}}</p>
+                    <span href="#" class="flex items-center gap-x-1 text-sm text-gray-400">
+                        <svg class="w-4 h-4 mb-1"><use href="#calendar"></use></svg> {{post.published_date|jformat:"%d /%m/ %Y " }}
+                    </span>
+                </a>
+            </li>
+            {%endfor%}
+        </ul>
+        <a href="{% url 'article:article_index'%}" class="main-btn py-1.5 gap-x-1">
+            مشاهده بیشتر <svg class="w-4 h-4"><use href="#chevron-left"></use></svg>
+        </a>
+    </div>
+   

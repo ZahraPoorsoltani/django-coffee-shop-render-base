@@ -1,0 +1,108 @@
+{%extends 'dashboard/dashboard-base.html'%}
+{% load static%}
+{% load humanize%}
+{% load jformat %}
+{%block content%}
+
+
+
+                    <div class="m-5 lg:m-0">
+                        <p class="font-DanaMedium block lg:hidden">
+                            {{user.username}}
+                            عزیز؛ خوش اومدی 🙌</p>
+                        <div class="grid grid-cols-12 gap-6 lg:gap-12 mt-6">
+                            <div class="col-span-12 xl:col-span-12">
+                                <p class="text-lg">اطلاعات کاربری :</p>
+                                <div class="bg-white shadow child:flex child:items-center child:gap-x-2 mt-4 px-4 py-7 dark:bg-zinc-700 rounded-lg flex flex-col">
+                                    {% if form.errors %}
+                                    <p class="font-DanaMedium text-lg  lg:block">                                         
+                                        <div class="bg-red-500">
+                                            <div id="top-alert" class="container top-alert py-2 text-white flex items-center justify-between sm:justify-between overflow-hidden">
+                                               <div>
+                                                
+                                                {% for error in form.old_password.errors %}
+                                                
+                                                        <div class="flex items-center gap-x-2 md:gap-x-6 text-sm md:text-base sm:text-sm">
+                                                        پسورد اولیه: {{error}}
+                                                        </div>
+                                                {% endfor %}
+                        
+                                                {% for error in form.new_password1.errors %}
+                                            
+                                                        <div class=""></div>
+                                                        <div class="flex items-center gap-x-2 md:gap-x-6 text-sm md:text-base sm:text-sm">
+                                                            پسورد جدید:
+                                                            {{error}}
+                                                        </div>
+                                                {% endfor %}
+                                                {% for error in form.new_password2.errors %}
+                                                
+                                                        <div class=""></div>
+                                                        <div class="flex items-center gap-x-2 md:gap-x-6 text-sm md:text-base sm:text-sm">
+                                                            تایید پسورد جدید:
+                                                            {{error}}
+                                                        </div>
+                                                {% endfor %}
+                                                </div>
+                                        <button id="error-close-btn" class="close-alert-btn flex items-center justify-center hover:bg-white/20 transition-colors duration-300 w-7 h-7 rounded-lg">
+                                            <svg class="w-6 h-6"><use href="#close"></use></svg>
+                                        </button>
+                                           </div>
+                                           </div>
+
+                                        </p>
+                                    {%endif%}
+                                    <form  method="post" class="m-5 lg:m-0">
+                                        {% csrf_token %}
+                                        <div class="grid grid-cols-12 gap-6 lg:gap-12 mt-6">
+                                            <div class="col-span-12 xl:col-span-6">
+                                                <span class="w-full text-right text-sm py-1 ">
+                                                    نام کاربری یا ایمیل
+                                                </span>
+                                                <input name="username" disabled type="text" class="tailwind-input" placeholder="نام کاربری یا ایمیل" value="{{user.username}}">
+                                            </div>
+                                            <div class="col-span-12 xl:col-span-6">
+                                                <span class="w-full text-right text-sm py-1 ">
+                                                  اولیه  پسورد
+                                                </span>
+                                                <input name="old_password"  type="password" class="tailwind-input" placeholder="پسورد"
+                                                required>
+                                            </div>
+                                            <div class="col-span-12 xl:col-span-6">
+                                                <span class="w-full text-right text-sm py-1 ">
+                                                    پسورد جدید
+                                                </span>
+                                                <input name="new_password1"  type="password" class="tailwind-input" placeholder="پسورد"
+                                                required>
+                                            </div>
+                                            <div class="col-span-12 xl:col-span-6">
+                                                <span class="w-full text-right text-sm py-1 ">
+                                                    تاییدپسورد جدید
+                                                </span>
+                                                <input name="new_password2"  type="password" class="tailwind-input" placeholder="پسورد"
+                                                required>
+                                            </div>
+                                            <div class="col-span-12 xl:col-span-6">
+                                                <button type="submit" class="rounded-lg p-2 bg-green-500 hover:bg-green-600 text-white transition-all">تغییر رمز عبور</button>
+                                            </div>         
+                                             
+                                   
+                                    </div>
+                                    </form>   
+                                    
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const input = document.getElementById("error-close-btn"),
+                                closeButton = document.querySelector(".close-alert-btn");
+                            
+                                closeButton?.addEventListener("click", (e) => {
+                                        $('#top-alert').addClass('hidden')
+                            });
+                        })
+                        
+                    </script>
+{%endblock%}
