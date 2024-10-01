@@ -25,7 +25,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ]
 
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -43,15 +48,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'root',
-        'PASSWORD': 'ZUutuNnORxNLZseNhfsACik0',
-        'HOST': 'tai.liara.cloud',
-        'PORT': '33004',
-    }}
+# DATABASES = {
+#     'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'root',
+#         'PASSWORD': 'ZUutuNnORxNLZseNhfsACik0',
+#         'HOST': 'tai.liara.cloud',
+#         'PORT': '33004',
+    # }}
 # DATABASES = {
 #     'default': dj_database_url.config(default=config('DATABASE_URL')) 
 #     }
