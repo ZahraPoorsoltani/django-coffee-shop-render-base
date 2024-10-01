@@ -7,8 +7,7 @@ SECRET_KEY = 'django-insecure-ttrqwwfyy-t%jip@oxhwcg(fg3_+sc)-q152@zf@c@vbx&o_ph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost',
-  '127.0.0.1',]
+ALLOWED_HOSTS = []
 
 
 # Static files (CSS, JavaScript, Images)
@@ -25,12 +24,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ]
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -57,8 +56,8 @@ DATABASES = {
 #         'HOST': 'tai.liara.cloud',
 #         'PORT': '33004',
     # }}
-# DATABASES = {
-#     'default': dj_database_url.config(default=config('DATABASE_URL')) 
-#     }
+DATABASES = {
+    'default': dj_database_url.config(default=config('DATABASE_URL')) 
+    }
 
 
